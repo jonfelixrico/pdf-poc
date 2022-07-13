@@ -72,7 +72,7 @@ public class PdfService {
 	}
 	
 	public SearchResult searchFile(String searchTerm, String filename) throws IOException {
-		List<PageResult> results = getTextContentOfPdf(String.format("%s/%s", DIRECTORY_ROOT, filename))
+		List<PageResult> results = getTextContentOfPdf(String.format("%s/%s.pdf", DIRECTORY_ROOT, filename))
 				.stream()
 				.map(textContent -> new PageResult(getMatchIndexes(textContent, searchTerm)))
 				.collect(Collectors.toList());
