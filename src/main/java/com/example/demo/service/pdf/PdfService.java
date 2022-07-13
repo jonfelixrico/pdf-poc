@@ -51,7 +51,7 @@ public class PdfService {
 	
 	private static final String DIRECTORY_ROOT = "files";
 	
-	public List<SearchResult> doTextSearch(String searchTerm) {
+	public List<SearchResult> searchAllFiles(String searchTerm) {
 		Stream<String> paths = getAllPdfsInDirectory(DIRECTORY_ROOT).stream();
 		
 		return paths.map(filename -> {
@@ -69,5 +69,14 @@ public class PdfService {
 
 			return new SearchResult(filename, results);
 		}).collect(Collectors.toList());
+	}
+	
+	public SearchResult searchFile(String searchTerm, String filename) throws IOException {
+		List<PageResult> results = getTextContentOfPdf(String.format("%s/%s", DIRECTORY_ROOT, filename))
+				.stream()
+				.map(textContent -> new PageResult(getMatchIndexes(textContent, searchTerm)))
+				.collect(Collectors.toList());
+		
+		return new SearchResult(filename, results);
 	}
 }
