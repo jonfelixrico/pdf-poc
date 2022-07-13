@@ -24,7 +24,7 @@ public class PdfPocController {
 	private PdfService pdfService;
 	
 	@RequestMapping("/search")
-	public List<SearchResult> findMatches(@RequestParam String searchTerm) {
+	public List<SearchResult> findMatches(@RequestParam(required=true) String searchTerm) {
 		return pdfService.doTextSearch(searchTerm);
 	}
 }
