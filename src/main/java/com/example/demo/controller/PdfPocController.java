@@ -19,7 +19,7 @@ import com.lowagie.text.pdf.parser.PdfTextExtractor;
 public class PdfPocController { 
 	@RequestMapping("/")
 	public String getTextTest() throws IOException {
-		PdfReader reader = new PdfReader("C:\\Users\\Felix\\Desktop\\pdf\\target.pdf");
+		PdfReader reader = new PdfReader("files\\target.pdf");
 		PdfTextExtractor extractor = new PdfTextExtractor(reader);
 		return extractor.getTextFromPage(1);
 	}
