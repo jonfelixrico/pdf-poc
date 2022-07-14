@@ -45,7 +45,12 @@ public class PdfService {
 	
 	private List<Pair<Integer, Integer>> getMatchIndexes(String text, String searchTerm) {
 		Matcher matcher = Pattern.compile(searchTerm, Pattern.LITERAL).matcher(text);
-		return matcher.results().map(result -> Pair.of(result.start(), result.end())).collect(Collectors.toList());
+		return matcher.results()
+				.map(result -> Pair.of(
+						result.start(),
+						result.end() - 1 // -1 since end returns the index AFTER the last matched character
+				))
+				.collect(Collectors.toList());
 	}
 	
 	private List<PageResult> getPageResultsFromPdfReader(PdfReader reader, String searchTerm) {
