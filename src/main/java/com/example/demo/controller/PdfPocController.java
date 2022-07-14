@@ -5,6 +5,7 @@ package com.example.demo.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,12 +26,14 @@ public class PdfPocController {
 	private PdfService pdfService;
 	
 	@RequestMapping("/search")
-	public List<SearchResult> searchAll(@RequestParam(required=true) String searchTerm) {
-		return pdfService.searchAllFiles(searchTerm);
+	public List<SearchResultResp> searchAll(@RequestParam(required=true) String searchTerm) {
+		return pdfService.searchAllFiles(searchTerm).stream()
+				.map(res -> SearchResultResp.prepareSearchResultForResp(res))
+				.collect(Collectors.toList());
 	}
 	
 	@RequestMapping("/search/{filename}")
-	public SearchResult searchFile(@RequestParam(required=true) String searchTerm, @PathVariable(required=true) String filename) throws IOException {
-		return pdfService.searchFile(searchTerm, filename);
+	public SearchResultResp searchFile(@RequestParam(required=true) String searchTerm, @PathVariable(required=true) String filename) throws IOException {
+		return SearchResultResp.prepareSearchResultForResp(pdfService.searchFile(searchTerm, filename));
 	}
 }
